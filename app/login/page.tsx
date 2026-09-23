@@ -1,44 +1,80 @@
 import { LoginForm } from '@/modules/auth/components/login-form';
+import { ArrowUpRight, CircleCheck, CircleDot } from 'lucide-react';
 
 export default function LoginPage() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[#07191E] px-4 py-8">
-      <section className="w-full max-w-md">
-        <div className="mb-8 text-center">
-          <div className="mx-auto mb-5 flex size-14 items-center justify-center rounded-2xl border border-[#02F5A1]/20 bg-[#02F5A1]/10">
-            <span
-              aria-hidden="true"
-              className="size-3 rounded-full bg-[#02F5A1] shadow-[0_0_24px_rgba(2,245,161,0.7)]"
-            />
+    <main className="login-page px-5 py-8 text-white sm:px-8">
+      <div className="login-page__ambient login-page__ambient--one" aria-hidden="true" />
+      <div className="login-page__ambient login-page__ambient--two" aria-hidden="true" />
+
+      <div className="login-layout">
+        <section className="login-intro hidden md:block" aria-label="Sobre Checkpoint">
+          <div className="login-brand">
+            <div className="login-brand__mark" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </div>
+            <span>Checkpoint</span>
           </div>
 
-          <h1 className="text-3xl font-semibold tracking-tight text-white">
-            Checkpoint
-          </h1>
-
-          <p className="mt-2 text-sm text-white/50">
-            Continúa donde dejaste tus proyectos.
-          </p>
-        </div>
-
-        <div className="rounded-3xl border border-white/10 bg-white/[0.035] p-6 shadow-2xl shadow-black/20 backdrop-blur-xl sm:p-8">
-          <div className="mb-6">
-            <h2 className="text-xl font-semibold text-white">
-              Iniciar sesión
-            </h2>
-
-            <p className="mt-1 text-sm text-white/45">
-              Accede a tu espacio de trabajo.
+          <div className="login-intro__copy">
+            <p className="login-eyebrow">Tu contexto, sin ruido</p>
+            <h1>Vuelve exactamente donde lo dejaste.</h1>
+            <p>
+              Guarda el punto de control de cada proyecto y retoma tu trabajo
+              con claridad, incluso después de semanas.
             </p>
           </div>
 
-          <LoginForm />
-        </div>
+          <div className="login-pathway" aria-hidden="true">
+            <div className="login-pathway__line" />
+            <div className="login-pathway__node login-pathway__node--active">
+              <CircleCheck />
+              <span>Captura</span>
+            </div>
+            <div className="login-pathway__node">
+              <CircleDot />
+              <span>Recuerda</span>
+            </div>
+            <div className="login-pathway__node">
+              <ArrowUpRight />
+              <span>Continúa</span>
+            </div>
+          </div>
 
-        <p className="mt-6 text-center text-xs text-white/30">
-          Tu espacio personal para saber siempre dónde dejaste cada proyecto.
-        </p>
-      </section>
+          <p className="login-intro__note">Un punto claro para volver a empezar.</p>
+        </section>
+
+        <section className="login-auth" aria-labelledby="login-title">
+          <div className="login-auth__card">
+            <div className="login-auth__mobile-brand md:hidden">
+              <div className="login-brand__mark" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </div>
+              <span>Checkpoint</span>
+            </div>
+
+            <div className="mb-7">
+              <p className="login-eyebrow">Espacio personal</p>
+              <h2 id="login-title" className="mt-2 text-2xl font-semibold tracking-tight text-white">
+                Iniciar sesión
+              </h2>
+              <p className="mt-2 text-sm leading-6 text-white/45">
+                Accede para continuar con tus proyectos.
+              </p>
+            </div>
+
+            <LoginForm />
+
+            <p className="login-auth__footer">
+              Tu trabajo queda exactamente donde lo dejaste.
+            </p>
+          </div>
+        </section>
+      </div>
     </main>
   );
 }

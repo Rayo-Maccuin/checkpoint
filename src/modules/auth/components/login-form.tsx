@@ -33,6 +33,7 @@ export function LoginForm() {
       return;
     }
 
+    window.sessionStorage.setItem('checkpoint:dashboard-entry', 'true');
     router.replace('/');
     router.refresh();
   }
@@ -63,13 +64,15 @@ export function LoginForm() {
             autoComplete="email"
             placeholder="tu@correo.com"
             disabled={isSubmitting}
+            aria-invalid={Boolean(errors.email)}
+            aria-describedby={errors.email ? 'login-email-error' : undefined}
             {...register('email')}
-            className="h-11 w-full rounded-xl border border-white/10 bg-white/5 pl-10 pr-4 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-[#02F5A1]/60 focus:bg-white/[0.07] disabled:cursor-not-allowed disabled:opacity-60"
+            className="h-12 w-full rounded-xl border border-white/10 bg-[#06171c]/80 pl-10 pr-4 text-sm text-white outline-none transition placeholder:text-white/25 hover:border-white/20 focus:border-[#02F5A1]/60 focus:bg-[#06171c] disabled:cursor-not-allowed disabled:opacity-60"
           />
         </div>
 
         {errors.email && (
-          <p className="text-xs text-red-400">{errors.email.message}</p>
+          <p id="login-email-error" className="text-xs text-red-300">{errors.email.message}</p>
         )}
       </div>
 
@@ -93,8 +96,10 @@ export function LoginForm() {
             autoComplete="current-password"
             placeholder="Tu contraseña"
             disabled={isSubmitting}
+            aria-invalid={Boolean(errors.password)}
+            aria-describedby={errors.password ? 'login-password-error' : undefined}
             {...register('password')}
-            className="h-11 w-full rounded-xl border border-white/10 bg-white/5 pl-10 pr-11 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-[#02F5A1]/60 focus:bg-white/[0.07] disabled:cursor-not-allowed disabled:opacity-60"
+            className="h-12 w-full rounded-xl border border-white/10 bg-[#06171c]/80 pl-10 pr-11 text-sm text-white outline-none transition placeholder:text-white/25 hover:border-white/20 focus:border-[#02F5A1]/60 focus:bg-[#06171c] disabled:cursor-not-allowed disabled:opacity-60"
           />
 
           <button
@@ -115,14 +120,14 @@ export function LoginForm() {
         </div>
 
         {errors.password && (
-          <p className="text-xs text-red-400">{errors.password.message}</p>
+          <p id="login-password-error" className="text-xs text-red-300">{errors.password.message}</p>
         )}
       </div>
 
       {serverError && (
         <div
           role="alert"
-          className="rounded-xl border border-red-400/20 bg-red-400/10 px-4 py-3 text-sm text-red-300"
+          className="rounded-xl border border-red-300/15 bg-red-300/[0.07] px-4 py-3 text-sm leading-5 text-red-200"
         >
           {serverError}
         </div>
@@ -131,7 +136,7 @@ export function LoginForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#02F5A1] px-4 text-sm font-semibold text-[#07191E] transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-60"
+        className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#02F5A1] px-4 text-sm font-semibold text-[#07191E] shadow-[0_10px_30px_rgba(2,245,161,0.12)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#22f7ad] active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
       >
         {isSubmitting ? (
           <>

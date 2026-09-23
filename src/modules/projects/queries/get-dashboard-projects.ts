@@ -1,4 +1,5 @@
 import { createClient } from '@/infrastructure/supabase/server';
+import { isPlatformAdmin } from '@/modules/auth/utils/authorization';
 
 import { calculateProgress } from '@/modules/projects/utils/calculate-progress';
 import type {
@@ -116,6 +117,7 @@ export async function getDashboardProjects(): Promise<GetDashboardProjectsResult
   const dashboardUser: DashboardUser = {
     id: user.id,
     name: profile?.name ?? null,
+    isAdmin: isPlatformAdmin(user),
   };
 
   if (!projects || projects.length === 0) {

@@ -103,8 +103,6 @@ return ( <form
    className="space-y-5"
  >
 <input type="hidden" {...register('projectId')} />
-
-```
   <div className="space-y-2">
     <label
       htmlFor="edit-project-name"
@@ -167,18 +165,21 @@ return ( <form
         control={control}
         render={({ field }) => (
           <CheckpointSelect
+            id="edit-project-priority"
             value={field.value}
             onChange={field.onChange}
             options={priorityOptions}
             placeholder="Selecciona una prioridad"
             disabled={isSubmitting}
             ariaLabel="Prioridad del proyecto"
+            ariaDescribedBy="edit-project-priority-error"
+            ariaInvalid={Boolean(errors.priority)}
           />
         )}
       />
 
       {errors.priority ? (
-        <p className="text-sm text-red-400">
+        <p id="edit-project-priority-error" className="text-sm text-red-400">
           {errors.priority.message}
         </p>
       ) : null}
@@ -197,18 +198,21 @@ return ( <form
         control={control}
         render={({ field }) => (
           <CheckpointSelect
+            id="edit-project-status"
             value={field.value}
             onChange={field.onChange}
             options={statusOptions}
             placeholder="Selecciona un estado"
             disabled={isSubmitting}
             ariaLabel="Estado del proyecto"
+            ariaDescribedBy="edit-project-status-error"
+            ariaInvalid={Boolean(errors.status)}
           />
         )}
       />
 
       {errors.status ? (
-        <p className="text-sm text-red-400">
+        <p id="edit-project-status-error" className="text-sm text-red-400">
           {errors.status.message}
         </p>
       ) : null}

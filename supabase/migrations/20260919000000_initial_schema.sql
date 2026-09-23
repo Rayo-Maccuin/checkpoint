@@ -683,4 +683,4 @@ to authenticated
 with check (
   public.can_edit_project(project_id)
   and user_id = auth.uid()
-); yo te dije.
+); 

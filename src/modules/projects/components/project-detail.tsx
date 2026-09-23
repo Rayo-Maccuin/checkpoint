@@ -1,8 +1,10 @@
 import { CheckpointFormDialog } from '@/modules/projects/components/checkpoint-form-dialog';
 import { DeleteProjectDialog } from '@/modules/projects/components/delete-project-dialog';
 import { EditProjectDialog } from '@/modules/projects/components/edit-project-dialog';
+import { MemberManager } from '@/modules/projects/components/member-manager';
 import { PhaseManager } from '@/modules/projects/components/phase-manager';
 import { TaskManager } from '@/modules/projects/components/task-manager';
+
 import type { ProjectDetail } from '@/modules/projects/types/project-detail';
 
 interface ProjectDetailViewProps {
@@ -61,7 +63,6 @@ const phaseTasks = project.tasks.filter(
 (task) => task.phaseId === phase.id,
 );
 
-
   return [
     phase.id,
     {
@@ -75,8 +76,14 @@ const phaseTasks = project.tasks.filter(
 
 );
 
-return ( <div className="space-y-8"> <section className="rounded-3xl border border-white/10 bg-white/[0.035] p-6 sm:p-8"> <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between"> <div className="min-w-0"> <p className="text-sm font-medium text-[#02F5A1]">
-{project.currentPhase?.name ?? 'Sin fase actual'} </p>
+return (
+<div className="space-y-8">
+<section id="informacion" className="rounded-3xl border border-white/10 bg-white/[0.035] p-6 sm:p-8">
+<div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+<div className="min-w-0">
+<p className="text-sm font-medium text-[#02F5A1]">
+{project.currentPhase?.name ?? 'Sin fase actual'}
+</p>
 
         <h1 className="mt-2 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
           {project.name}
@@ -94,8 +101,7 @@ return ( <div className="space-y-8"> <section className="rounded-3xl border bord
           </span>
 
           <span className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/40">
-            {project.completedTasks} de {project.totalTasks}{' '}
-            tareas
+            {project.completedTasks} de {project.totalTasks} tareas
           </span>
         </div>
 
@@ -147,7 +153,7 @@ return ( <div className="space-y-8"> <section className="rounded-3xl border bord
     </div>
   </section>
 
-  <section>
+  <section id="checkpoints">
     <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div>
         <p className="text-xs font-medium uppercase tracking-[0.16em] text-[#02F5A1]/70">
@@ -236,14 +242,21 @@ return ( <div className="space-y-8"> <section className="rounded-3xl border bord
         </h3>
 
         <p className="mt-2 max-w-xl text-sm leading-6 text-white/40">
-          Cuando termines una sesión de trabajo, guarda un
-          checkpoint para conservar el contexto.
+          Cuando termines una sesión de trabajo, guarda un checkpoint para conservar el contexto.
         </p>
       </div>
     )}
   </section>
 
-  <section>
+  <div id="colaboradores">
+  <MemberManager
+    projectId={project.id}
+    members={project.members}
+    currentUserId={project.currentUserId}
+  />
+  </div>
+
+  <section id="fases">
     <div className="mb-4">
       <p className="text-xs font-medium uppercase tracking-[0.16em] text-white/30">
         Estructura
@@ -254,8 +267,7 @@ return ( <div className="space-y-8"> <section className="rounded-3xl border bord
       </h2>
 
       <p className="mt-2 text-sm leading-6 text-white/40">
-        Selecciona una fase para establecerla como el punto actual
-        del proyecto.
+        Selecciona una fase para establecerla como el punto actual del proyecto.
       </p>
     </div>
 
@@ -267,11 +279,11 @@ return ( <div className="space-y-8"> <section className="rounded-3xl border bord
     />
   </section>
 
-  <section>
+  <section id="tareas">
     <TaskManager project={project} />
   </section>
 
-  <section className="pb-10">
+  <section id="historial" className="pb-10">
     <div className="mb-4">
       <p className="text-xs font-medium uppercase tracking-[0.16em] text-white/30">
         Registro
@@ -317,7 +329,6 @@ return ( <div className="space-y-8"> <section className="rounded-3xl border bord
     </div>
   </section>
 </div>
-
 
 );
 }

@@ -266,6 +266,9 @@ export function TaskManager({
   const [isPending, startTransition] =
     useTransition();
 
+  const [pendingTaskId, setPendingTaskId] =
+    useState<string | null>(null);
+
   const currentUserMember =
     project.members.find(
       (member) =>
@@ -292,6 +295,7 @@ export function TaskManager({
     }
 
     startTransition(async () => {
+      setPendingTaskId(task.id);
       const result =
         await changeTaskStatus({
           projectId: project.id,
@@ -300,6 +304,7 @@ export function TaskManager({
         });
 
       if (!result.success) {
+        setPendingTaskId(null);
         gooeyToast.error(result.message);
         return;
       }
@@ -309,6 +314,7 @@ export function TaskManager({
       );
 
       refreshProject();
+      setPendingTaskId(null);
     });
   }
 
@@ -321,6 +327,7 @@ export function TaskManager({
     }
 
     startTransition(async () => {
+      setPendingTaskId(task.id);
       const result =
         await changeTaskPriority({
           projectId: project.id,
@@ -329,6 +336,7 @@ export function TaskManager({
         });
 
       if (!result.success) {
+        setPendingTaskId(null);
         gooeyToast.error(result.message);
         return;
       }
@@ -338,6 +346,7 @@ export function TaskManager({
       );
 
       refreshProject();
+      setPendingTaskId(null);
     });
   }
 
@@ -349,12 +358,14 @@ export function TaskManager({
     }
 
     startTransition(async () => {
+      setPendingTaskId(task.id);
       const result = await completeTask({
         projectId: project.id,
         taskId: task.id,
       });
 
       if (!result.success) {
+        setPendingTaskId(null);
         gooeyToast.error(result.message);
         return;
       }
@@ -362,6 +373,7 @@ export function TaskManager({
       gooeyToast.success('Tarea completada');
 
       refreshProject();
+      setPendingTaskId(null);
     });
   }
 
@@ -535,7 +547,7 @@ export function TaskManager({
                                     : task.id,
                                 )
                               }
-                              disabled={isPending}
+                              disabled={pendingTaskId !== null && pendingTaskId !== task.id}
                               className="flex size-9 items-center justify-center rounded-xl text-white/35 transition hover:bg-white/5 hover:text-white disabled:opacity-40"
                             >
                               <MoreHorizontal
@@ -574,7 +586,7 @@ export function TaskManager({
                                       )
                                     }
                                     disabled={
-                                      isPending
+                                      pendingTaskId !== null
                                     }
                                     className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm text-[#02F5A1]/80 transition hover:bg-[#02F5A1]/5 hover:text-[#02F5A1] disabled:cursor-not-allowed disabled:opacity-50"
                                   >
@@ -693,7 +705,7 @@ export function TaskManager({
                                 value as ProjectDetailTaskStatus,
                               )
                             }
-                            disabled={isPending}
+                            disabled={pendingTaskId !== null && pendingTaskId !== task.id}
                             className="w-40"
                           />
 
@@ -709,7 +721,7 @@ export function TaskManager({
                                 value as ProjectDetailTaskPriority,
                               )
                             }
-                            disabled={isPending}
+                            disabled={pendingTaskId !== null && pendingTaskId !== task.id}
                             className="w-36"
                           />
                         </div>

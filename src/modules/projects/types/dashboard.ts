@@ -51,4 +51,5 @@ export interface DashboardStats {
 export interface DashboardUser {
   id: string;
   name: string | null;
+  isAdmin: boolean;
 }

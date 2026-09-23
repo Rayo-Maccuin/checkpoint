@@ -3,6 +3,7 @@ import { ContinueProject } from '@/modules/projects/components/continue-project'
 import { CreateProjectDialog } from '@/modules/projects/components/create-project-dialog';
 
 import { DashboardHeader } from '@/modules/projects/components/dashboard-header';
+import { DashboardLoadError } from '@/modules/projects/components/dashboard-load-error';
 
 import { ProjectCard } from '@/modules/projects/components/project-card';
 
@@ -11,6 +12,7 @@ import { ProjectStats } from '@/modules/projects/components/project-stats';
 import { getDashboardProjects } from '@/modules/projects/queries/get-dashboard-projects';
 
 import { UserMenu } from '@/modules/auth/components/user-menu';
+import { DashboardEntry } from '@/modules/projects/components/dashboard-entry';
 
 import type { DashboardStats } from '@/modules/projects/types/dashboard';
 
@@ -21,16 +23,9 @@ if (!result.success) {
 return ( <main className="min-h-screen bg-[#07191E] px-5 py-8 text-white sm:px-8"> <div className="mx-auto max-w-6xl"> <header className="flex items-center justify-between"> <p className="text-sm font-semibold text-[#02F5A1]">
 Checkpoint </p> </header>
 
-      <section className="mt-16 rounded-3xl border border-red-400/10 bg-red-400/[0.04] p-8">
-        <h1 className="text-xl font-semibold">
-          No pudimos cargar tus proyectos
-        </h1>
-
-        <p className="mt-2 text-sm text-white/45">
-          {result.message}
-        </p>
-      </section>
+      <DashboardLoadError message={result.message} />
     </div>
+
   </main>
 );
 
@@ -73,24 +68,24 @@ return project;
   : null;
 
 
-return ( <main className="min-h-screen bg-[#07191E] px-5 py-8 text-white sm:px-8"> <div className="mx-auto max-w-6xl"> <div className="flex items-start justify-between gap-6"> <DashboardHeader userName={user.name} />
+return ( <main className="dashboard-page min-h-screen bg-[#07191E] px-5 py-8 text-white sm:px-8"> <DashboardEntry /> <div className="dashboard-page__content mx-auto max-w-6xl"> <div className="dashboard-section dashboard-section--header flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between"> <DashboardHeader userName={user.name} />
 
 
-      <div className="flex shrink-0 items-center gap-3">
+      <div className="flex w-full shrink-0 items-center gap-3 sm:w-auto">
         <CreateProjectDialog />
-        <UserMenu userName={user.name} />
+        <UserMenu userName={user.name} isAdmin={user.isAdmin} />
       </div>
     </div>
 
-    <div className="mt-10">
+    <div className="dashboard-section dashboard-section--stats mt-10">
       <ProjectStats stats={stats} />
     </div>
 
-    <div className="mt-12">
+    <div className="dashboard-section dashboard-section--continue mt-12">
       <ContinueProject project={projectToContinue} />
     </div>
 
-    <section className="mt-12 pb-10">
+    <section id="proyectos" className="dashboard-section dashboard-section--projects mt-12 pb-10">
       <div className="mb-5 flex items-end justify-between gap-4">
         <div>
           <p className="text-xs font-medium uppercase tracking-[0.16em] text-white/30">

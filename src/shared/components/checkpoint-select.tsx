@@ -1,6 +1,6 @@
 'use client';
 
-import { Check, ChevronDown } from 'lucide-react';
+import { Check, ChevronDown, LoaderCircle } from 'lucide-react';
 import {
   useEffect,
   useId,
@@ -24,7 +24,13 @@ interface CheckpointSelectProps {
   options: CheckpointSelectOption[];
   placeholder?: string;
   disabled?: boolean;
+  loading?: boolean;
+  error?: boolean | string;
+  size?: 'sm' | 'md' | 'lg';
+  id?: string;
   ariaLabel?: string;
+  ariaDescribedBy?: string;
+  ariaInvalid?: boolean;
   className?: string;
 }
 
@@ -34,7 +40,13 @@ export function CheckpointSelect({
   options,
   placeholder = 'Seleccionar',
   disabled = false,
+  loading = false,
+  error = false,
+  size = 'md',
+  id,
   ariaLabel,
+  ariaDescribedBy,
+  ariaInvalid = false,
   className = 'w-full',
 }: CheckpointSelectProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -162,7 +174,7 @@ export function CheckpointSelect({
   ]);
 
   const handleToggle = () => {
-    if (disabled) {
+    if (disabled || loading) {
       return;
     }
 
@@ -181,6 +193,8 @@ export function CheckpointSelect({
     event: KeyboardEvent<HTMLButtonElement>,
   ) => {
     if (
+      disabled ||
+      loading ||
       event.key !== 'ArrowDown' &&
       event.key !== 'ArrowUp' &&
       event.key !== 'Enter' &&
@@ -218,20 +232,28 @@ export function CheckpointSelect({
       <button
         type="button"
         role="combobox"
+        id={id}
         aria-label={ariaLabel}
+        aria-describedby={ariaDescribedBy}
+        aria-invalid={ariaInvalid || Boolean(error)}
+        aria-busy={loading}
         aria-controls={listboxId}
         aria-expanded={open}
         aria-haspopup="listbox"
-        disabled={disabled}
+        disabled={disabled || loading}
         onClick={handleToggle}
         onKeyDown={handleButtonKeyDown}
         className={[
-          'flex h-10 w-full items-center justify-between gap-3 rounded-xl',
+          'flex w-full items-center justify-between gap-3 rounded-xl',
           'border border-white/10 bg-white/[0.03] px-3 text-left',
           'text-sm text-white/75 transition',
           'hover:border-white/15 hover:bg-white/[0.05]',
           'focus:outline-none focus:ring-2 focus:ring-[#02F5A1]/20',
-          disabled
+          size === 'sm' ? 'h-9 text-xs' : size === 'lg' ? 'h-12' : 'h-10',
+          error
+            ? 'border-red-400/40'
+            : '',
+          disabled || loading
             ? 'cursor-not-allowed opacity-50'
             : 'cursor-pointer',
         ].join(' ')}
@@ -254,15 +276,19 @@ export function CheckpointSelect({
           </span>
         </span>
 
-        <ChevronDown
-          size={15}
-          className={[
-            'shrink-0 text-white/30 transition-transform duration-200',
-            open
-              ? 'rotate-180 text-[#02F5A1]/70'
-              : '',
-          ].join(' ')}
-        />
+        {loading ? (
+          <LoaderCircle className="size-4 shrink-0 animate-spin text-white/35" />
+        ) : (
+          <ChevronDown
+            size={15}
+            className={[
+              'shrink-0 text-white/30 transition-transform duration-200',
+              open
+                ? 'rotate-180 text-[#02F5A1]/70'
+                : '',
+            ].join(' ')}
+          />
+        )}
       </button>
 
       {open && (

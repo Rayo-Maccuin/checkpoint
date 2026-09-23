@@ -2,15 +2,17 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import { ChevronDown, Settings, UserRound } from 'lucide-react';
+import Link from 'next/link';
+import { ChevronDown, Settings, UserRound, Users } from 'lucide-react';
 
 import { LogoutButton } from '@/modules/auth/components/logout-button';
 
 interface UserMenuProps {
 userName?: string | null;
+isAdmin?: boolean;
 }
 
-export function UserMenu({ userName }: UserMenuProps) {
+export function UserMenu({ userName, isAdmin = false }: UserMenuProps) {
 const [isOpen, setIsOpen] = useState(false);
 const menuRef = useRef<HTMLDivElement>(null);
 
@@ -72,7 +74,7 @@ className="group inline-flex h-11 items-center gap-3 rounded-xl border border-wh
     <div
       role="menu"
       aria-label="Menú de usuario"
-      className="absolute right-0 top-[calc(100%+0.5rem)] z-50 w-56 overflow-hidden rounded-2xl border border-white/10 bg-[#0B2228] p-1.5 shadow-2xl shadow-black/30"
+      className="user-menu__panel absolute right-0 top-[calc(100%+0.5rem)] z-50 w-56 overflow-hidden rounded-2xl border border-white/10 p-1.5 shadow-2xl shadow-black/30"
     >
       <div className="border-b border-white/5 px-3 py-2.5">
         <p className="truncate text-sm font-medium text-white">
@@ -85,6 +87,18 @@ className="group inline-flex h-11 items-center gap-3 rounded-xl border border-wh
       </div>
 
       <div className="py-1">
+        {isAdmin && (
+          <Link
+            href="/users"
+            role="menuitem"
+            onClick={() => setIsOpen(false)}
+            className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/70 transition hover:bg-white/5 hover:text-white"
+          >
+            <Users aria-hidden="true" className="size-4" />
+            Usuarios
+          </Link>
+        )}
+
         <button
           type="button"
           role="menuitem"

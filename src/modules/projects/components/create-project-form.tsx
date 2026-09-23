@@ -2,10 +2,12 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoaderCircle, Plus } from 'lucide-react';
 import { gooeyToast } from 'goey-toast';
+
+import { CheckpointSelect } from '@/shared/components/checkpoint-select';
 
 import { createProject } from '@/modules/projects/actions';
 import {
@@ -49,6 +51,7 @@ export function CreateProjectForm({
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<CreateProjectFormData>({
     resolver: zodResolver(createProjectSchema),
@@ -165,21 +168,24 @@ export function CreateProjectForm({
           Prioridad
         </label>
 
-        <select
-          id="project-priority"
-          disabled={isSubmitting}
-          {...register('priority')}
-          className="h-11 w-full rounded-xl border border-white/10 bg-[#0b2429] px-4 text-sm text-white outline-none transition focus:border-[#02F5A1]/60 disabled:cursor-not-allowed disabled:opacity-60"
-        >
-          {priorityOptions.map((option) => (
-            <option
-              key={option.value}
-              value={option.value}
-            >
-              {option.label}
-            </option>
-          ))}
-        </select>
+        <Controller
+          name="priority"
+          control={control}
+          render={({ field }) => (
+            <CheckpointSelect
+              id="project-priority"
+              value={field.value}
+              onChange={field.onChange}
+              options={priorityOptions.map((option) => ({
+                value: option.value,
+                label: option.label,
+              }))}
+              ariaLabel="Prioridad"
+              disabled={isSubmitting}
+              className="w-full"
+            />
+          )}
+        />
 
         {errors.priority && (
           <p

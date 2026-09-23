@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 768" role="img" aria-labelledby="title">
+  <title>Checkpoint</title>
+  <rect width="768" height="768" fill="#061b1f"/>
+  <path d="M488 224a190 190 0 0 0-106-32c-105 0-190 85-190 190v191h190c105 0 190-85 190-190a190 190 0 0 0-31-105" fill="none" stroke="#02f5a1" stroke-width="51" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M381 382 554 209" fill="none" stroke="#02f5a1" stroke-width="51" stroke-linecap="round"/>
+  <circle cx="381" cy="382" r="77" fill="#02f5a1"/>
+</svg>

@@ -16,13 +16,19 @@ const statusLabels: Record<DashboardProject['status'], string> = {
   archived: 'Archivado',
 };
 
+function formatDate(date: string) {
+  return new Intl.DateTimeFormat('es-CO', { dateStyle: 'medium' }).format(
+    new Date(date),
+  );
+}
+
 export function ProjectCard({ project }: ProjectCardProps) {
   const statusLabel = statusLabels[project.status];
 
   return (
     <Link
       href={`/projects/${project.id}`}
-      className="group block rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-white/15 hover:bg-white/[0.045]"
+      className="dashboard-project-card group block rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-white/15 hover:bg-white/[0.045]"
       aria-label={`Abrir proyecto ${project.name}`}
     >
       <div className="flex items-start justify-between gap-4">
@@ -80,6 +86,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <p className="mt-1 line-clamp-2 text-sm leading-5 text-white/60">
           {project.latestCheckpoint?.nextStep ||
             'Crea tu primer checkpoint.'}
+        </p>
+
+        <p className="mt-3 text-xs text-white/30">
+          Actualizado el {formatDate(project.updatedAt)}
         </p>
       </div>
     </Link>

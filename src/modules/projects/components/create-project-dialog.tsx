@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Plus, X } from 'lucide-react';
 
 import { CreateProjectForm } from '@/modules/projects/components/create-project-form';
@@ -51,9 +52,9 @@ export function CreateProjectDialog() {
         Nuevo proyecto
       </button>
 
-      {isOpen && (
+      {isOpen && createPortal(
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/70 px-4 py-6 backdrop-blur-sm"
+          className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto bg-black/70 p-4 backdrop-blur-sm"
           role="presentation"
           onMouseDown={(event) => {
             if (event.target === event.currentTarget) {
@@ -65,7 +66,7 @@ export function CreateProjectDialog() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="create-project-dialog-title"
-            className="w-full max-w-lg rounded-3xl border border-white/10 bg-[#0a2025] p-6 shadow-2xl shadow-black/40 sm:p-7"
+            className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-3xl border border-white/10 bg-[#07191E] p-6 shadow-2xl shadow-black/40 sm:p-7"
             onMouseDown={(event) => {
               event.stopPropagation();
             }}
@@ -103,7 +104,8 @@ export function CreateProjectDialog() {
               onSuccess={() => setIsOpen(false)}
             />
           </section>
-        </div>
+        </div>,
+        document.body,
       )}
     </>
   );
